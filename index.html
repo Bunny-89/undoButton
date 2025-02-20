@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Undo Button</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            background-color: #000;
+            color: #0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            flex-direction: column;
+        }
+        button {
+            font-size: 20px;
+            padding: 15px 30px;
+            border: 2px solid #0f0;
+            background-color: transparent;
+            color: #0f0;
+            cursor: pointer;
+            border-radius: 5px;
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+        button:hover {
+            background-color: #0f0;
+            color: #000;
+        }
+        .terminal {
+            border: 2px solid #0f0;
+            padding: 20px;
+            width: 400px;
+            background-color: rgba(0, 0, 0, 0.8);
+            box-shadow: 0 0 15px #0f0;
+        }
+        .custom-alert {
+            position: fixed;
+            top: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: black;
+            color: #0f0;
+            border: 2px solid #0f0;
+            padding: 10px 20px;
+            text-align: center;
+            font-size: 18px;
+            box-shadow: 0 0 10px #0f0;
+            display: none;
+            z-index: 1000;
+            opacity: 0;
+            transition: top 0.5s ease-out, opacity 0.5s ease-out;
+        }
+        .show-alert {
+            display: block;
+            top: 20px;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div id="alertBox" class="custom-alert"></div>
+    <div class="terminal">
+        <p>Press the button to undo an action.</p>
+        <button id="undoButton">Undo</button>
+    </div>
+    <script>
+        let undoCount = 0;
+        const maxUndo = 10;
+        
+        function showAlert(message) {
+            const alertBox = document.getElementById("alertBox");
+            alertBox.innerText = message;
+            alertBox.style.display = "block";
+            setTimeout(() => {
+                alertBox.classList.add("show-alert");
+            }, 10);
+            setTimeout(() => {
+                alertBox.classList.remove("show-alert");
+                setTimeout(() => {
+                    alertBox.style.display = "none";
+                }, 500);
+            }, 2000);
+        }
+        
+        document.getElementById("undoButton").addEventListener("click", function() {
+            if (undoCount < maxUndo) {
+                undoCount++;
+                showAlert("Undo completed");
+            } else {
+                showAlert("Max undo limit reached");
+            }
+        });
+    </script>
+</body>
+</html>
